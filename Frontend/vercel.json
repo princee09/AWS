@@ -1,12 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/aws",
+      "source": "/ec2-user",
       "destination": "http://3.17.36.170/"
-    },
-    {
-      "source": "/aws/:path*",
-      "destination": "http://3.17.36.170/:path*"
     }
   ]
 }
