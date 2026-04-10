@@ -37,7 +37,7 @@
 
             try {
                 // Fetching directly from the IPv4 address
-                const response = await fetch('/api/');
+                const response = await fetch('/aws/');
 
                 if (response.status === 429) {
                     box.innerHTML = "🚨 429 Error: Rate Limit Hit!<br><span style='font-size: 14px; color: #666;'>You clicked too fast. Wait a moment.</span>";
