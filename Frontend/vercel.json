@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/ec2-user",
+      "source": "/api-proxy",
       "destination": "http://3.17.36.170/"
     }
   ]
