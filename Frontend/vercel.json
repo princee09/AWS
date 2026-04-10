@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/aws",
+      "destination": "http://3.17.36.170/"
+    },
+    {
       "source": "/aws/:path*",
       "destination": "http://3.17.36.170/:path*"
     }
