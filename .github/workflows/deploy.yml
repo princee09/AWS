@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      # PRO-TIP: This tells GitHub ONLY to run this server update if you changed Backend code!
-      # It won't waste time restarting your server if you only updated the Vercel Frontend.
-      - 'Backend/**' 
 
 jobs:
   deploy:
@@ -21,14 +17,14 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # 1. Navigate to your backend folder (Update 'test5' to your actual repo folder name if different)
-            cd /home/ec2-user/test5/Backend
+            # Navigate to the backend folder
+            cd /home/ec2-user/firstapp
             
-            # 2. Pull the latest code from GitHub
+            # Pull the latest code
             git pull origin main
             
-            # 3. Install any new dependencies (like cors, express, etc.)
+            # Install any new packages
             npm install
             
-            # 4. Restart all 4 of your load-balanced workers perfectly
+            # Restart the load-balanced workers
             pm2 restart all
