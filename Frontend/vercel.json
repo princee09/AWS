@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api-proxy",
-      "destination": "http://3.17.36.170/"
+      "destination": "http://3.134.104.55/"
     }
   ]
 }
