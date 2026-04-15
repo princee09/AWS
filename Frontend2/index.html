@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS + Vercel Connection</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #1a1a1a; color: white; }
+        .card { background: #2a2a2a; padding: 40px; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.5); max-width: 500px; margin: auto; }
+        button { padding: 15px 30px; font-size: 16px; font-weight: bold; cursor: pointer; background-color: #ff9900; color: white; border: none; border-radius: 8px; transition: 0.2s; margin-bottom: 20px;}
+        button:hover { background-color: #e68a00; }
+        button:active { transform: scale(0.95); }
+        #response-box { padding: 20px; border: 2px dashed #555; border-radius: 8px; min-height: 60px; font-weight: bold; background-color: #333; font-size: 18px; word-wrap: break-word;}
+        .success { color: #4ade80; border-color: #4ade80 !important; background-color: #166534 !important;}
+        .error { color: #f87171; border-color: #f87171 !important; background-color: #7f1d1d !important;}
+        .fetching { color: #fbbf24; border-color: #fbbf24 !important;}
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>AWS Backend Tester</h1>
+        <p>Connecting securely via Vercel Proxy.</p>
+        
+        <button onclick="testBackend()">Send Request to EC2</button>
+
+        <div id="response-box">Awaiting connection...</div>
+    </div>
+
+    <script>
+        async function testBackend() {
+            const box = document.getElementById('response-box');
+            box.innerHTML = "Connecting to AWS...";
+            box.className = "fetching";
+
+            try {
+                // 🚨 This MUST perfectly match the "source" in vercel.json
+                // 🚨 Change this line:
+                const response = await fetch('https://my-second-api.duckdns.org/');
+
+                if (response.status === 429) {
+                    box.innerHTML = "🚨 429 Error: Rate Limit Hit!<br><span style='font-size: 14px; color: #ddd;'>You clicked too fast. Wait a moment.</span>";
+                    box.className = "error";
+                    return;
+                }
+
+                if (response.ok) {
+                    const data = await response.text();
+                    box.innerHTML = `✅ Success!<br><br><span style='color: white;'>${data}</span>`;
+                    box.className = "success";
+                } else {
+                    // If Vercel fails to proxy, it usually throws a 404, 500, or 502
+                    box.innerHTML = `⚠️ Proxy Error: Vercel returned status ${response.status}`;
+                    box.className = "error";
+                }
+
+            } catch (error) {
+                box.innerHTML = "❌ Network Error!<br><span style='font-size: 14px; color: #ddd;'>Check console for details.</span>";
+                box.className = "error";
+                console.error("Fetch failed:", error);
+            }
+        }
+    </script>
+</body>
+</html>
